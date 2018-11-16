@@ -14,4 +14,4 @@
 
 **欢迎加入Android/Java 开发交流群，群里有学习资料，遇到问题可以进行交流，共同成长。群号：542222046*
 
-![Image text](https://github.com/SmartKidsLOL/SimpleFlowLayout/raw/master/sample14.png)
+![Image text](https://github.com/SmartKidsLOL/SimpleFlowLayout/raw/master/sample17.png)
