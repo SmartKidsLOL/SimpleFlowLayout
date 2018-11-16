@@ -7,6 +7,8 @@
     android:layout_height="wrap_content"
     tools:context=".MainActivity">
 
+    <!--hor_divider_width：每行的Item间距
+        hor_row_height：行间距-->
     <com.wjr.simple_flow_layout.SimpleFlowLayout
         android:id="@+id/flow_layout"
         android:layout_width="match_parent"
