@@ -47,6 +47,11 @@ public class SimpleFlowLayout extends ViewGroup {
         typedArray.recycle();
     }
 
+    /**
+     * 摆放原理：按行摆放，循环遍历子View，当子View叠加宽度至一行时宽度重新变为左padding间距，
+     * 高度叠加当前行的item高度
+     * 进行换行时总高度=当前所有行高度+自定义行间距，然后以此类推叠加
+     */
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         // 子View的左边距和上边距
@@ -75,6 +80,11 @@ public class SimpleFlowLayout extends ViewGroup {
         }
     }
 
+    /**
+     * 测量原理：
+     * 当宽度为WrapContent时，则取所有子View里面宽度最长的一个作为总宽度，如果childCount=1，则直接返回子view的宽度 + 左右间距
+     * 当高度为WrapContent时，则高度=：计算出所有子View能够摆放的行数 * （行高度） +（行数-1） * 行间距 + 上下间距，如果childCount=1，同上
+     */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int width = MeasureSpec.getSize(widthMeasureSpec);
@@ -98,11 +108,12 @@ public class SimpleFlowLayout extends ViewGroup {
         width = measureWidth(width, wMode);
         height = measureHeight(width, height, hMode);
 
-        Log.d("AAAA：", "最终高度：" + height);
-
         setMeasuredDimension(width, height);
     }
 
+    /**
+     * 测量宽度
+     */
     private int measureWidth(int width, int wMode) {
         switch (wMode) {
             case MeasureSpec.EXACTLY:
@@ -118,6 +129,9 @@ public class SimpleFlowLayout extends ViewGroup {
         }
     }
 
+    /**
+     * 测量高度
+     */
     private int measureHeight(int width, int height, int hMode) {
         switch (hMode) {
             case MeasureSpec.EXACTLY:
@@ -135,7 +149,7 @@ public class SimpleFlowLayout extends ViewGroup {
 
     /**
      * 计算高度为wrap_content
-     * 计算child所占的总行数，求出最终高度
+     * 计算child所占的总行数 * 行宽 + (行数 - 1) * 行间距 + 上下间距
      *
      * @param width  初步测量得到的宽度
      * @param height 初步测量得到的高度
@@ -144,7 +158,6 @@ public class SimpleFlowLayout extends ViewGroup {
         int useableWidth = width - padLeft - padRight;
         if (mChildCount == 1) {
             int singleHeight = getChildAt(0).getMeasuredHeight() + (padTop + padBottom);
-            Log.d("AAAA：", "孩子高度：" + singleHeight);
             if (height == 0) {
                 return singleHeight;
             }
