@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mFlowLayout = findViewById(R.id.flow_layout);
 
+
         initFlowLayout();
     }
 
