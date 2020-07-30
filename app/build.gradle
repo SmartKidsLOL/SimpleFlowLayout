@@ -38,6 +38,16 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    applicationVariants.all {variant ->
+        variant.outputs.all {output ->
+            if (variant.buildType.name == "debug") {
+                output.outputFileName = "ACE-${android.defaultConfig.versionName}_debug.apk"
+            } else if (variant.buildType.name == "release") {
+                output.outputFileName = "ACE-${android.defaultConfig.versionName}_release.apk"
+            }
+        }
+    }
+
 }
 
 dependencies {
