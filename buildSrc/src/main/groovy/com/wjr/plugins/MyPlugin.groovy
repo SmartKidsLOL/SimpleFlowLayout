@@ -9,6 +9,8 @@ import org.gradle.api.file.ConfigurableFileTree
 
 // 飞书：https://open.feishu.cn/open-apis/bot/hook/38ce74e6df4b423c89de4bd028050482
 class MyPlugin implements Plugin<Project> {
+    String defaultArtifactsPath = "artifact/app/build/outputs/apk/release/"
+
     @Override
     void apply(Project project) {
         project.task('pluginTest') {
@@ -20,7 +22,8 @@ class MyPlugin implements Plugin<Project> {
                     def buildUrl = env['BUILD_URL']
                     String title = "项目：${env['JOB_NAME']} 版本：${env['BUILD_NUMBER']} 已构建完成"
                     StringBuilder contentStr = new StringBuilder()
-                    ConfigurableFileTree fileTree = project.fileTree('G:\\music')
+                    ConfigurableFileTree fileTree = project.fileTree(
+                            "/Users/timedomain/.jenkins/job/${'JOB_NAME'}/${'BUILD_NUMBER'}/${defaultArtifactsPath}/")
                     fileTree.each { File file ->
                         def filePrefixName
                         if (file.name.contains(".")) {
