@@ -5,7 +5,6 @@ import com.wjr.plugins.models.FeishuObj
 import groovyx.net.http.HttpBuilder
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.file.ConfigurableFileTree
 
 // 飞书：https://open.feishu.cn/open-apis/bot/hook/38ce74e6df4b423c89de4bd028050482
 class MyPlugin implements Plugin<Project> {
@@ -13,13 +12,14 @@ class MyPlugin implements Plugin<Project> {
     String serverJenkinsJobPath = "/Users/timedomain/.jenkins/jobs/"
     String defaultApkPath = "/app/build/outputs/apk/release/"
     String defaultArtifactsPath = "artifact${defaultApkPath}"
+    String feiShuBotWebHook = "https://open.feishu.cn/open-apis/bot/hook/38ce74e6df4b423c89de4bd028050482"
 
     @Override
     void apply(Project project) {
         project.task('pluginTest') {
             doLast {
                 def result = HttpBuilder.configure {
-                    request.uri = 'https://open.feishu.cn/open-apis/bot/hook/38ce74e6df4b423c89de4bd028050482'
+                    request.uri = feiShuBotWebHook
                     FeishuObj obj = new FeishuObj()
 
                     def env = System.getenv()
@@ -30,11 +30,32 @@ class MyPlugin implements Plugin<Project> {
                         it.name.endsWith(".apk")
                     }
 
-                    File t = new File(sourceApkPath)
-                    println('文件测试：' + t.getPath() + "\n" + t.listFiles())
+                    def appGradleFile = new File("../build.gradle")
+                    def versionCode = null
+                    def versionName = null
+                    appGradleFile.eachLine { line ->
+                        if (line.contains("appVersionCode")) {
+                            def res1 = line.split(":")[1]
+                            versionCode = res1.contains(",") ? res1.substring(0, res1.length() - 1) : res1
+                        }
+                        if (line.contains("appVersionName")) {
+                            def res2 = line.split(":")[1]
+                            versionName = res2.contains(",") ? res2.substring(0, res2.length() - 1) : res2
+                        }
+                    }
 
-                    String title = "项目：${env['JOB_NAME']} 版本：${env['BUILD_NUMBER']} 构建完成"
+                    String title = "项目：${env['JOB_NAME']} 第${env['BUILD_NUMBER']}次 构建完成"
                     StringBuilder contentStr = new StringBuilder()
+                    contentStr.append("\n")
+                            .append("分支为->")
+                            .append("${env['GIT_BRANCH']}")
+                            .append("\n")
+                            .append("versionCode：")
+                            .append(versionCode)
+                            .append("\n")
+                            .append("versionName：")
+                            .append(versionName)
+                            .append("\n")
                     fileTree.each { File file ->
                         def filePrefixName
                         if (file.name.contains(".")) {
@@ -50,9 +71,9 @@ class MyPlugin implements Plugin<Project> {
                                 .append(defaultArtifactsPath)
                                 .append(file.name)
                     }
-                    contentStr.append("\n")
+                    contentStr.append("\n\n")
                             .append("如果点击无效，请稍等几秒后打开，文件正在归档中")
-                    obj.title = title + "构建成功"
+                    obj.title = title
                     obj.text = contentStr.toString()
 
                     request.body = new Gson().toJson(obj)
