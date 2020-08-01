@@ -25,7 +25,7 @@ class MyPlugin implements Plugin<Project> {
                     ConfigurableFileTree fileTree = project.fileTree(
                             "/Users/timedomain/.jenkins/job/${env['JOB_NAME']}/${env['BUILD_NUMBER']}/${defaultArtifactsPath}")
                     println('文件测试：' +
-                            new File("/Users/timedomain/.jenkins/")
+                            new File("/Users/timedomain/.jenkins/").listFiles())
                     fileTree.each { File file ->
                         def filePrefixName
                         if (file.name.contains(".")) {
