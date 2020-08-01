@@ -18,8 +18,8 @@ class MyPlugin implements Plugin<Project> {
                     FeishuObj obj = new FeishuObj()
                     def env = System.getenv()
                     def buildUrl = env['BUILD_URL']
-                    String title = "项目：${env['JOB_NAME']} 版本：${env[BUILD_NUMBER]} 已构建完成"
-                    StringBuilder contentStr = ""
+                    String title = "项目：${env['JOB_NAME']} 版本：${env['BUILD_NUMBER']} 已构建完成"
+                    StringBuilder contentStr = new StringBuilder()
                     ConfigurableFileTree fileTree = project.fileTree('G:\\music')
                     fileTree.each { File file ->
                         def filePrefixName
