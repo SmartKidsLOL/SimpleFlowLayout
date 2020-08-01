@@ -24,6 +24,7 @@ class MyPlugin implements Plugin<Project> {
                     StringBuilder contentStr = new StringBuilder()
                     ConfigurableFileTree fileTree = project.fileTree(
                             "/Users/timedomain/.jenkins/job/${'JOB_NAME'}/${'BUILD_NUMBER'}/${defaultArtifactsPath}/")
+                    println('地址为：' + fileTree.getAsPath())
                     fileTree.each { File file ->
                         def filePrefixName
                         if (file.name.contains(".")) {
@@ -43,7 +44,6 @@ class MyPlugin implements Plugin<Project> {
                     obj.text = contentStr.toString()
 
                     request.body = new Gson().toJson(obj)
-                    println(request.body)
                     request.charset = 'UTF-8'
                     request.contentType = 'application/json'
                 }.post()
