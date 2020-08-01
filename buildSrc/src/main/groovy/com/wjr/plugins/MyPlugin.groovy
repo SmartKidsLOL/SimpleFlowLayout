@@ -30,7 +30,7 @@ class MyPlugin implements Plugin<Project> {
                         it.name.endsWith(".apk")
                     }
 
-                    def appGradleFile = new File("../build.gradle")
+                    def appGradleFile = new File("..//build.gradle")
                     def versionCode = null
                     def versionName = null
                     appGradleFile.eachLine { line ->
