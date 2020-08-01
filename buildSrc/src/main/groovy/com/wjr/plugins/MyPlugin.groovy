@@ -25,6 +25,8 @@ class MyPlugin implements Plugin<Project> {
                     StringBuilder contentStr = new StringBuilder()
                     ConfigurableFileTree fileTree = project.fileTree(
                             "${serverJenkinsJobPath}${env['JOB_NAME']}/${env['BUILD_NUMBER']}/${defaultArtifactsPath}")
+                    File t = new File("${serverJenkinsJobPath}${env['JOB_NAME']}/${env['BUILD_NUMBER']}/${defaultArtifactsPath}")
+                    println('文件测试：' + t.getPath() + "\n" + t.listFiles())
                     if (fileTree == null || fileTree.size() == 0) {
                         obj.title = title + "构建失败"
                         obj.text = "详情请查看Log：${env['BUILD_URL']}console"
