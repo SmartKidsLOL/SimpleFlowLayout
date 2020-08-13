@@ -22,6 +22,7 @@ class MyPlugin implements Plugin<Project> {
                     FeiShuObj obj = new FeiShuObj()
 
                     def env = System.getenv()
+                    println env
                     def buildUrl = env['BUILD_URL']
                     def sourceApkPath = "${serverJenkinsSourcePath}${env['JOB_NAME']}/${defaultApkPath}"
 
