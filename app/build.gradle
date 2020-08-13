@@ -1,3 +1,5 @@
+import java.nio.file.Files
+
 apply plugin: 'com.android.application'
 apply plugin: 'WjrPlugins'
 
@@ -49,6 +51,27 @@ android {
         }
     }
 
+}
+
+task copyApk {
+    doLast {
+        def apkFiles = project.fileTree("${rootProject.rootDir.absolutePath}/app/build/outputs/apk/")
+                .findAll {
+                    it.name.endsWith(".apk")
+                }
+        def outputsDir = new File("${rootProject.rootDir.absolutePath}/outputs/")
+        if (!outputsDir.exists()) {
+            outputsDir.mkdir()
+        }
+        apkFiles.each { File file ->
+            def targetFile = new File(outputsDir, file.name)
+            if (targetFile.exists()) {
+                targetFile.delete()
+            }
+            def targetPath = targetFile.toPath()
+            Files.copy(file.toPath(), targetPath)
+        }
+    }
 }
 
 dependencies {
