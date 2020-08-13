@@ -41,13 +41,35 @@ android {
             signingConfig signingConfigs.release
         }
     }
-    applicationVariants.all {variant ->
-        variant.outputs.all {output ->
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
             if (variant.buildType.name == "debug") {
                 output.outputFileName = "ACE-${android.defaultConfig.versionName}_debug.apk"
             } else if (variant.buildType.name == "release") {
                 output.outputFileName = "ACE-${android.defaultConfig.versionName}_release.apk"
             }
+        }
+    }
+
+    flavorDimensions "version"
+    productFlavors {
+        //简体中文版
+        zh {
+            dimension "version"
+        }
+        //繁体中文版
+        tw {
+            dimension "version"
+        }
+        //测试版
+        a1 {
+            dimension "version"
+        }
+        a2 {
+            dimension "version"
+        }
+        a3 {
+            dimension "version"
         }
     }
 
