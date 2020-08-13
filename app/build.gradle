@@ -75,6 +75,20 @@ android {
 
 }
 
+afterEvaluate {
+    android.applicationVariants.all { variant ->
+        //TODO 打包比较慢，先FireBase上报
+        // tasks."assemble${variant.name.capitalize()}".finalizedBy "uploadCrashlyticsSymbolFile${variant.name.capitalize()}"
+        variant.outputs.all { output ->
+            output.outputFileName = "ACE-" +
+                    "${android.defaultConfig.versionName}" +
+                    "_${variant.flavorName}" +
+                    "_${variant.buildType.name}.apk"
+        }
+    }
+
+}
+
 task copyApk {
     doLast {
         def apkFiles = project.fileTree("${rootProject.rootDir.absolutePath}/app/build/outputs/apk/")
