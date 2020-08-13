@@ -107,6 +107,8 @@ task copyApk {
             def targetPath = targetFile.toPath()
             Files.copy(file.toPath(), targetPath)
         }
+        def buildFile = new File("${rootProject.rootDir.absolutePath}/app/build/outputs/apk/")
+        buildFile.deleteDir()
     }
 }
 
