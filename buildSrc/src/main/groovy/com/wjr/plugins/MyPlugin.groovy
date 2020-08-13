@@ -67,12 +67,12 @@ class MyPlugin implements Plugin<Project> {
                         if (nameArr != null && nameArr.length > 2) {
                             if (filePrefixName.contains("release")) {
                                 def releaseIndex = filePrefixName.indexOf("release")
-                                def subResult = filePrefixName.substring(0, releaseIndex)
-                                finaName = "${subResult.split("_")[subResult.length() - 1]}_release.apk"
+                                def splitResult = filePrefixName.substring(0, releaseIndex).split("_")
+                                finaName = "${splitResult[splitResult.length() - 1]}_release.apk"
                             } else if (filePrefixName.contains("debug")) {
                                 def debugIndex = filePrefixName.indexOf("debug")
-                                def subResult = filePrefixName.substring(0, debugIndex)
-                                finaName = "${subResult.split("_")[subResult.length() - 1]}_debug.apk"
+                                def splitResult = filePrefixName.substring(0, debugIndex).split("_")
+                                finaName = "${splitResult[splitResult.length() - 1]}_debug.apk"
                             }
                         }
                         contentStr.append("\n")
