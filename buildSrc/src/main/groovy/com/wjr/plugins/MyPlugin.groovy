@@ -11,11 +11,11 @@ class MyPlugin implements Plugin<Project> {
     String serverJenkinsSourcePath = "/Users/timedomain/.jenkins/workspace/"
     String defaultApkPath = "/outputs/"
     String defaultArtifactsPath = "artifact${defaultApkPath}"
-    String feiShuBotWebHook = "https://open.feishu.cn/open-apis/bot/hook/a523c0aa8eb24b88b72d8697b7c09de9"
+    String feiShuBotWebHook = "https://open.feishu.cn/open-apis/bot/hook/8dc2dadb-1962-46a0-8684-52f69219c43c"
 
     @Override
     void apply(Project project) {
-        project.task('buildAndroidJenkins') {
+        project.task('pluginTest') {
             doLast {
                 def result = HttpBuilder.configure {
                     request.uri = feiShuBotWebHook
