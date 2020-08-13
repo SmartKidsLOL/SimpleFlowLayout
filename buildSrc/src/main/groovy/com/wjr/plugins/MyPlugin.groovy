@@ -64,15 +64,24 @@ class MyPlugin implements Plugin<Project> {
                         }
                         def nameArr = file.name.split("_")
                         def finaName = filePrefixName
-                        if (nameArr != null && nameArr.length > 2) {
+                        if (nameArr != null && nameArr.length > 0) {
                             if (filePrefixName.contains("release")) {
                                 def releaseIndex = filePrefixName.indexOf("release")
                                 def splitResult = filePrefixName.substring(0, releaseIndex).split("_")
-                                finaName = "${splitResult[splitResult.length - 1]}_release.apk"
+                                finaName = "${splitResult[splitResult.length - 1]}_release"
                             } else if (filePrefixName.contains("debug")) {
                                 def debugIndex = filePrefixName.indexOf("debug")
                                 def splitResult = filePrefixName.substring(0, debugIndex).split("_")
-                                finaName = "${splitResult[splitResult.length - 1]}_debug.apk"
+                                finaName = "${splitResult[splitResult.length - 1]}_debug"
+                            }
+                            if (filePrefixName.contains("jiagu")) {
+                                finaName = "${finaName}_jiagu"
+                            }
+                            if (filePrefixName.contains("sign")) {
+                                finaName = "${finaName}_sign"
+                            }
+                            if (!finaName.endsWith(".apk")) {
+                                finaName = "${finaName}.apk"
                             }
                         }
                         contentStr.append("\n")
