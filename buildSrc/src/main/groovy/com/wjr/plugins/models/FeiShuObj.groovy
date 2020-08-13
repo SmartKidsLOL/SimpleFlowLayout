@@ -1,13 +1,13 @@
 package com.wjr.plugins.models
 
-class FeishuObj {
+class FeiShuObj {
     String title
     String text
 
-    FeishuObj() {
+    FeiShuObj() {
     }
 
-    FeishuObj(String title, String text) {
+    FeiShuObj(String title, String text) {
         this.title = title
         this.text = text
     }
